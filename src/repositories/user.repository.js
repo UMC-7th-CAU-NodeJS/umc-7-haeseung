@@ -68,7 +68,7 @@ export const setPreference = async (userId, foodCategory) => {
     if (category.length == 0) {
       return null;
     }
-    console.log(category[0].id)
+    
     await conn.query(
       `INSERT INTO user_prefer (category_id, user_id) VALUES (?, ?);`,
       [category[0].id, userId]

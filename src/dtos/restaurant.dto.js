@@ -9,8 +9,6 @@ export const bodyToRestaurant = (body) => {
 }
 
 export const responseFromRestaurant = (restaurant, location, category) => {
-  console.log(location)
-  console.log(category)
   return {
     name: restaurant[0].name,
     category: category[0].name,

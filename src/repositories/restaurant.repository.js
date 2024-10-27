@@ -5,13 +5,14 @@ export const addRestaurant = async (data) => {
   const conn = await pool.getConnection();
   try {
     const [result] = await conn.query(
-      `INSERT INTO restaurant (name, category_id, location_id, address, status) VALUES (?, ?, ?, ?, ?)`,
+      `INSERT INTO restaurant (name, category_id, location_id, address, status, stars) VALUES (?, ?, ?, ?, ?, ?)`,
       [
         data.name,
         data.category_id,
         data.location_id,
         data.address,
-        data.status
+        data.status,
+        0
       ]
     );
     return result.insertId;

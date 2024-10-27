@@ -32,8 +32,5 @@ export const addRestaurant = async (data) => {
   const restaurantCategory = await getCategoryById(restaurant[0].category_id);
   const restaurantLocation = await getLocationById(restaurant[0].location_id);
 
-  console.log("다시 요청하면?", restaurant[0].category_id)
-  console.log(restaurantCategory)
-
   return responseFromRestaurant(restaurant, restaurantLocation, restaurantCategory);
 }
