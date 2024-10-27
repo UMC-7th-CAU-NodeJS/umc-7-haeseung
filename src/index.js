@@ -2,7 +2,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import { handleUserSignUp } from "./controllers/user.controller.js";
-import { handleRestaurantAppend } from "./controllers/restaurant.controller.js";
+import { handleRestaurantAppend, handleRestaurantReviewAppend } from "./controllers/restaurant.controller.js";
 
 dotenv.config();
 
@@ -17,9 +17,11 @@ app.use(express.urlencoded({ extended: false })); // 단순 객체 문자열 형
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-
+// auth 관련 api
 app.post("/api/users/signup", handleUserSignUp);
 
+// restaurant 관련 api
+app.post("/api/restaurants/:restaurantId/reviews", handleRestaurantReviewAppend);
 app.post("/api/restaurants", handleRestaurantAppend);
 
 app.listen(port, () => {
