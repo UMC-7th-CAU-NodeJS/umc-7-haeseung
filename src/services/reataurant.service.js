@@ -11,6 +11,11 @@ import {
   getCategoryByName, 
   getCategoryById
 } from "../repositories/category.repository.js";
+import { 
+  addReview as addReviewRepo,
+  getReview
+} from "../repositories/review.repository.js";
+import { responseFromReview } from "../dtos/review.dto.js";
 
 export const addRestaurant = async (data) => {
   const location = await getLocationByName(data.location);
@@ -33,4 +38,22 @@ export const addRestaurant = async (data) => {
   const restaurantLocation = await getLocationById(restaurant[0].location_id);
 
   return responseFromRestaurant(restaurant, restaurantLocation, restaurantCategory);
+}
+
+// 리뷰 등록
+export const addReview = async (data) => {
+  const joinReviewId = await addReviewRepo({
+    authorId: data.authorId,
+    restaurantId: data.restaurantId,
+    body: data.body,
+    stars: data.stars
+  });
+
+  if (joinReviewId === null) {
+    throw new Error("오류가 발생했습니다.");
+  }
+
+  const review = await getReview(joinReviewId);
+
+  return responseFromReview(review);
 }

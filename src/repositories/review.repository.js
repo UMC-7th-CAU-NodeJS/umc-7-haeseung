@@ -8,7 +8,7 @@ export const addReview = async (data) => {
     // 존재하는 사용자인지 확인
     const [confirmUser] = await conn.query(
       `SELECT EXISTS(SELECT * FROM user WHERE id = ?) as UserExist;`,
-      data.userId
+      data.authorId
     )
 
     // 존재하는 가게인지 확인
@@ -22,7 +22,7 @@ export const addReview = async (data) => {
       `INSERT INTO review (body, author_id, restaurant_id, stars, is_answered) VALUES (?, ?, ?, ?, ?)`,
       [
         data.body,
-        data.author_id,
+        data.authorId,
         data.restaurantId,
         data.stars,
         false
