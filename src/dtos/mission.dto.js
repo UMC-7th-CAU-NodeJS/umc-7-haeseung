@@ -1,6 +1,6 @@
 export const bodyToUserMission = (body, missionId) => {
   return {
-    userId: body.userId,
+    userId: body.requesterId,
     missionId: missionId
   }
 }

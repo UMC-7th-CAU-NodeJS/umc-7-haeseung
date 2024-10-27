@@ -8,7 +8,7 @@ export const addMissionToUser = async (data) => {
     // 존재하는 사용자인지 확인
     const [confirmUser] = await conn.query(
       `SELECT EXISTS(SELECT * FROM user WHERE id = ?) as UserExist;`,
-      data.userId
+      [data.userId]
     );
     if (!confirmUser[0].UserExist) {
       throw new Error("존재하지 않는 유저입니다.");
@@ -17,7 +17,7 @@ export const addMissionToUser = async (data) => {
     // 존재하는 미션인지 확인
     const [confirmMission] = await conn.query(
       `SELECT EXISTS(SELECT * FROM mission WHERE id = ?) as missionExist;`,
-      data.missionId
+      [data.missionId]
     );
     if (!confirmMission[0].missionExist) {
       throw new Error("존재하지 않는 미션입니다.");
@@ -28,7 +28,7 @@ export const addMissionToUser = async (data) => {
       `SELECT EXISTS(SELECT * FROM user_mission WHERE mission_id = ? and user_id = ?) as userMissionExist`,
       [data.missionId, data.userId]
     );
-    if (!confirmMission[0].userMissionExist) {
+    if (confirmUserMission[0].userMissionExist) {
       throw new Error("이미 완료했거나 진행 중인 미션입니다.");
     }
 
@@ -36,8 +36,8 @@ export const addMissionToUser = async (data) => {
     const [result] = await conn.query(
       `INSERT INTO user_mission (user_id, mission_id, status) VALUES (?, ?, ?)`,
       [
-        userId,
-        missionId,
+        data.userId,
+        data.missionId,
         "not_clear"
       ]
     );
