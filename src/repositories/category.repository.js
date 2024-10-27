@@ -8,7 +8,7 @@ export const getCategoryByName = async (categoryName) => {
     const [category, ] = await conn.query(`SELECT * FROM food_category WHERE name = ?;`, [categoryName]);
 
     if (category.length == 0) {
-      return null;
+      throw new Error("없는 카테코리입니다.");
     }
     
     return category;
@@ -29,7 +29,7 @@ export const getCategoryById = async (categoryId) => {
     const [category, ] = await conn.query(`SELECT * FROM food_category WHERE id = ?;`, [categoryId]);
 
     if (category.length == 0) {
-      return null;
+      throw new Error("없는 카테코리입니다.");
     }
     
     return category;

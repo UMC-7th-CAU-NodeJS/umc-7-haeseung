@@ -11,7 +11,7 @@ export const getLocationByName = async (locationName) => {
     )
 
     if (location.length == 0) {
-      return null;
+      throw new Error("등록되지 않은 장소입니다.")
     }
 
     return location;
@@ -35,7 +35,7 @@ export const getLocationById = async (locationId) => {
     )
 
     if (location.length == 0) {
-      return null;
+      throw new Error("등록되지 않은 장소입니다.")
     }
 
     return location;
