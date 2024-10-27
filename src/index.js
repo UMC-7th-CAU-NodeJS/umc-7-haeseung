@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import { handleUserSignUp } from "./controllers/user.controller.js";
 import { handleRestaurantAppend, handleRestaurantReviewAppend } from "./controllers/restaurant.controller.js";
+import { handleUserMissionAppend } from "./controllers/mission.controller.js";
 
 dotenv.config();
 
@@ -23,6 +24,9 @@ app.post("/api/users/signup", handleUserSignUp);
 // restaurant 관련 api
 app.post("/api/restaurants/:restaurantId/reviews", handleRestaurantReviewAppend);
 app.post("/api/restaurants", handleRestaurantAppend);
+
+// 미션 관련 api
+app.post("/api/missions/:missionId", handleUserMissionAppend);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
