@@ -5,7 +5,7 @@ export const addUser = async (data) => {
   const conn = await pool.getConnection();
 
   try {
-    const [confirm] = await pool.query(
+    const [confirm] = await conn.query(
       `SELECT EXISTS(SELECT * FROM user WHERE email = ?) as isExistEmail;`,
       data.email
     );
@@ -14,7 +14,7 @@ export const addUser = async (data) => {
       return null;
     }
 
-    const [result] = await pool.query(
+    const [result] = await conn.query(
       `INSERT INTO user (email, name, gender, birth, address, phone_number) VALUES (?, ?, ?, ?, ?, ?);`,
       [
         data.email,
@@ -40,7 +40,7 @@ export const getUser = async (userId) => {
   const conn = await pool.getConnection();
 
   try {
-    const [user, _] = await pool.query(`SELECT * FROM user WHERE id = ?;`, userId);
+    const [user, ] = await conn.query(`SELECT * FROM user WHERE id = ?;`, userId);
 
     if (user.length == 0) {
       return null;
@@ -63,13 +63,13 @@ export const setPreference = async (userId, foodCategory) => {
   
   // 음식 카테고리에서 ID 뽑아오기
   try {
-    const [category, _] = await pool.query(`SELECT * FROM food_category WHERE name = ?;`, foodCategory);
+    const [category, ] = await conn.query(`SELECT * FROM food_category WHERE name = ?;`, foodCategory);
 
     if (category.length == 0) {
       return null;
     }
-    console.log(category[0].id)
-    await pool.query(
+    
+    await conn.query(
       `INSERT INTO user_prefer (category_id, user_id) VALUES (?, ?);`,
       [category[0].id, userId]
     );
@@ -89,7 +89,7 @@ export const getUserPreferencesByUserId = async (userId) => {
   const conn = await pool.getConnection();
 
   try {
-    const [preferences] = await pool.query(
+    const [preferences] = await conn.query(
       "SELECT ufc.id, ufc.category_id, ufc.user_id, fcl.name " +
         "FROM user_prefer ufc JOIN food_category fcl on ufc.category_id = fcl.id " +
         "WHERE ufc.user_id = ? ORDER BY ufc.category_id ASC;",

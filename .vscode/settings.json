@@ -1,3 +1,11 @@
 {
-  "javascript.preferences.importModuleSpecifierEnding": "js"
+  "javascript.preferences.importModuleSpecifierEnding": "js",
+  "editor.tabSize": 2,        // 모든 파일에 대해 탭 크기를 2칸으로 설정
+  "editor.insertSpaces": true, // 탭 대신 스페이스로 삽입
+  "[javascript]": {
+    "editor.tabSize": 2       // JavaScript 파일에서만 탭 크기를 2칸으로 설정
+  },
+  "[typescript]": {
+    "editor.tabSize": 2       // TypeScript 파일에서만 탭 크기를 2칸으로 설정
+  }
 }
