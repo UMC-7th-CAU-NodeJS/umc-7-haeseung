@@ -27,5 +27,5 @@ export const userSignUp = async (data) => {
   const user = await getUser(joinUserId);
   const preferences = await getUserPreferencesByUserId(joinUserId);
 
-  return responseFromUser(user);
+  return responseFromUser(user, preferences);
 };
