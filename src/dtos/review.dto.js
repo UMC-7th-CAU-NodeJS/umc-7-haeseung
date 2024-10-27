@@ -1,9 +1,9 @@
-export const bodyToReview = (body) => {
+export const bodyToReview = (body, restaurantId) => {
   return {
     authorId: body.authorId,
-    restaurantId: body.restaurantId,
+    restaurantId: restaurantId,
     body: body.body,
-    star: body.star
+    stars: body.stars
   }
 }
 
@@ -12,6 +12,6 @@ export const responseFromReview = (review) => {
     authorId: review[0].author_id,
     restaurantId: review[0].restaurant_id,
     body: review[0].body,
-    star: review[0].star
+    stars: review[0].stars
   }
 }
