@@ -1,0 +1,205 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                          BigInt     @id @default(autoincrement())
+  locationAgree               Boolean?   @map("location_agree")
+  marketingAgree              Boolean?   @map("marketing_agree")
+  name                        String     @db.VarChar(100)
+  gender                      String     @db.VarChar(50)
+  birth                       DateTime?
+  address                     String?    @db.VarChar(500)
+  email                       String     @unique @db.VarChar(20)
+  phoneOk                     Boolean?   @map("phone_ok")
+  phoneNumber                 String?    @map("phone_number") @db.VarChar(20)
+  point                       BigInt?
+  status                      String?    @db.VarChar(10)
+  inactiveDate                DateTime?  @map("inactive_date")
+  account                     String?    @db.VarChar(20)
+  
+  reviews                     Review[]
+  inquiries                   Inquire[]
+  userPreferences             UserPrefer[]
+  userMissions                UserMission[]
+  missionPointLogs            MissionPointLog[]
+  locationPointLogs           LocationPointLog[]
+  repaymentPointLogs          RepaymentPointLog[]
+  
+  @@map("user")
+}
+
+model FoodCategory {
+  id            BigInt        @id @default(autoincrement())
+  name          String?       @db.VarChar(100)
+  
+  restaurants   Restaurant[]
+  userPreferences UserPrefer[]
+  
+  @@map("food_category")
+}
+
+model UserPrefer {
+  id           BigInt      @id @default(autoincrement())
+  user         User        @relation(fields: [userId], references: [id])
+  userId       BigInt      @map("user_id")
+  category     FoodCategory @relation(fields: [categoryId], references: [id])
+  categoryId   BigInt      @map("category_id")
+  
+  @@index([categoryId], map: "category_id")
+  @@index([userId], map: "user_id")
+  @@map("user_prefer")
+}
+
+model Restaurant {
+  id            BigInt         @id @default(autoincrement())
+  name          String?        @db.VarChar(100)
+  category      FoodCategory?  @relation(fields: [categoryId], references: [id])
+  categoryId    BigInt?        @map("category_id")
+  location      Location?      @relation(fields: [locationId], references: [id])
+  locationId    BigInt?        @map("location_id")
+  address       String?        @db.VarChar(500)
+  status        String?        @db.VarChar(20)
+  stars         Float?
+  
+  photos        RestaurantPhoto[]
+  reviews       Review[]
+  missions      Mission[]
+  
+  @@map("restaurant")
+}
+
+model RestaurantPhoto {
+  id            BigInt        @id @default(autoincrement())
+  restaurant    Restaurant    @relation(fields: [restaurantId], references: [id])
+  restaurantId  BigInt        @map("restaurant_id")
+  imageUrl      String?       @map("image_url") @db.VarChar(500)
+  
+  @@map("restaurant_photo")
+}
+
+model Location {
+  id                 BigInt           @id @default(autoincrement())
+  name               String?          @db.VarChar(100)
+  
+  restaurants        Restaurant[]
+  locationPointLogs  LocationPointLog[]
+  
+  @@map("location")
+}
+
+model Review {
+  id            BigInt        @id @default(autoincrement())
+  body          String?       @db.VarChar(1000)
+  author        User?         @relation(fields: [authorId], references: [id])
+  authorId      BigInt?       @map("author_id")
+  restaurant    Restaurant?   @relation(fields: [restaurantId], references: [id])
+  restaurantId  BigInt?       @map("restaurant_id")
+  stars         Float?
+  isAnswered    Boolean?      @map("is_answered")
+  answer        String?       @db.VarChar(1000)
+  answeredAt    DateTime?     @map("answered_at")
+  
+  photos        ReviewPhoto[]
+  
+  @@map("review")
+}
+
+model ReviewPhoto {
+  id          BigInt        @id @default(autoincrement())
+  review      Review        @relation(fields: [reviewId], references: [id])
+  reviewId    BigInt        @map("review_id")
+  imageUrl    String?       @map("image_url") @db.VarChar(500)
+  
+  @@map("review_photo")
+}
+
+model Inquire {
+  id              BigInt        @id @default(autoincrement())
+  title           String?       @db.VarChar(100)
+  type            String?       @db.VarChar(20)
+  body            String?       @db.VarChar(1000)
+  isAnswered      Boolean?      @map("is_answered")
+  answer          String?       @db.VarChar(1000)
+  author          User?         @relation(fields: [authorId], references: [id])
+  authorId        BigInt?       @map("author_id")
+  
+  photos          InquirePhoto[]
+  
+  @@map("inquire")
+}
+
+model InquirePhoto {
+  id          BigInt       @id @default(autoincrement())
+  inquire     Inquire      @relation(fields: [inquireId], references: [id])
+  inquireId   BigInt       @map("inquire_id")
+  imageUrl    String?      @map("image_url") @db.VarChar(500)
+  
+  @@map("inquire_photo")
+}
+
+model Mission {
+  id            BigInt         @id @default(autoincrement())
+  restaurant    Restaurant?    @relation(fields: [restaurantId], references: [id])
+  restaurantId  BigInt?        @map("restaurant_id")
+  content       String?        @db.VarChar(500)
+  deadline      DateTime?
+  point         Int?
+  
+  userMissions  UserMission[]
+  
+  @@map("mission")
+}
+
+model UserMission {
+  id                 BigInt          @id @default(autoincrement())
+  user               User            @relation(fields: [userId], references: [id])
+  userId             BigInt          @map("user_id")
+  mission            Mission         @relation(fields: [missionId], references: [id])
+  missionId          BigInt          @map("mission_id")
+  status             String?         @db.VarChar(20)
+  identifierNumber   String?         @map("identifier_number") @db.VarChar(500)
+  
+  missionPointLogs   MissionPointLog[]
+  
+  @@map("user_mission")
+}
+
+model MissionPointLog {
+  id            BigInt        @id @default(autoincrement())
+  user          User          @relation(fields: [userId], references: [id])
+  userId        BigInt        @map("user_id")
+  userMission   UserMission   @relation(fields: [userMissionId], references: [id])
+  userMissionId BigInt        @map("user_mission_id")
+  
+  @@map("mission_point_log")
+}
+
+model LocationPointLog {
+  id            BigInt      @id @default(autoincrement())
+  user          User        @relation(fields: [userId], references: [id])
+  userId        BigInt      @map("user_id")
+  location      Location    @relation(fields: [locationId], references: [id])
+  locationId    BigInt      @map("location_id")
+  
+  @@map("location_point_log")
+}
+
+model RepaymentPointLog {
+  id            BigInt      @id @default(autoincrement())
+  user          User        @relation(fields: [userId], references: [id])
+  userId        BigInt      @map("user_id")
+  
+  @@map("repayment_point_log")
+}
