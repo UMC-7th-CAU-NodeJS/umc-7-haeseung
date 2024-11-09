@@ -12,7 +12,7 @@ export const addReview = async (data) => {
 }
 
 // 리뷰 정보 get
-export const getReview = async (reviewId) => {
+export const getReviewById = async (reviewId) => {
   const review = await prisma.review.findFirst(
     {
       where: {id: reviewId}

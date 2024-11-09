@@ -12,7 +12,7 @@ export const addRestaurant = async (data) => {
 }
 
 // Restaurant 조회
-export const getRestaurant = async (restaurantId) => {
+export const getRestaurantById = async (restaurantId) => {
   const restaurant = await prisma.restaurant.findFirst(
     {
       where: {id: restaurantId}
