@@ -17,5 +17,13 @@ export const handleRestaurantReviewAppend = async (req, res, next) => {
   console.log("restaurant_id:", req.params.restaurantId);
 
   const review = await addReview(bodyToReview(req.body, req.params.restaurantId));
-  res.status(StatusCodes.OK).json({ result: review });
+  res.status(StatusCodes.OK).json(
+    {
+      result: JSON.parse(
+        JSON.stringify(
+          review, (key, value) => typeof value === 'bigint' ? value.toString() : value
+        )
+      ),
+    }
+  );
 }

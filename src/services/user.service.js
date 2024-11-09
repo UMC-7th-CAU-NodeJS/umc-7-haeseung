@@ -1,4 +1,6 @@
+import { responseFromReviewList } from "../dtos/review.dto.js";
 import { responseFromUser } from "../dtos/user.dto.js";
+import { getReviewListWithAuthorNameByAuthorId } from "../repositories/review.repository.js";
 import {
   addUser,
   getUserByEmail,
@@ -32,3 +34,16 @@ export const userSignUp = async (data) => {
 
   return responseFromUser(user, preferences);
 };
+
+export const getReviewsOfUser = async (userId) => {
+  // validation
+  if (!await getUserById(userId)) {
+    throw new Error("없는 유저입니다.");
+  }
+
+  // business logic
+  const reviews = await getReviewListWithAuthorNameByAuthorId(userId);
+
+  // response
+  return responseFromReviewList(reviews);
+}
