@@ -8,10 +8,6 @@ export const getLocationByName = async (locationName) => {
     }
   );
 
-  if (!location) {
-    return null;
-  }
-  
   return location;
 };
 
@@ -23,9 +19,5 @@ export const getLocationById = async (locationId) => {
     }
   );
   
-  if (!location) {
-    return null;
-  }
-
   return location;
 };

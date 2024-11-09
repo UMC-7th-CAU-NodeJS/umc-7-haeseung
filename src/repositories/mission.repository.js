@@ -23,10 +23,6 @@ export const getUserMission = async (userMissionId) => {
     }
   );
 
-  if (!userMission) {
-    return null;
-  }
-
   return userMission;
 }
 
@@ -37,10 +33,6 @@ export const getMission = async (missionId) => {
       where: {id: missionId}
     }
   );
-
-  if (!mission) {
-    return null;
-  }
 
   return mission;
 }
@@ -55,10 +47,6 @@ export const getUserMissionByUserIdAndMissionId = async (userId, missionId) => {
       }
     }
   );
-
-  if (!userMission) {
-    return null;
-  }
 
   return userMission;
 }

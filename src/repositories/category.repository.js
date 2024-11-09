@@ -8,10 +8,6 @@ export const getCategoryByName = async (categoryName) => {
     }
   );
 
-  if (!category) {
-    return null;
-  }
-
   return category;
 };
 
@@ -23,9 +19,5 @@ export const getCategoryById = async (categoryId) => {
     }
   )
 
-  if (!category) {
-    return null;
-  }    
-  
   return category;
 };

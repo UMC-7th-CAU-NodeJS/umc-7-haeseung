@@ -8,9 +8,6 @@ export const addUser = async (data) => {
     }
   );
 
-  if (user) {
-    return null;
-  }
 
   const created = await prisma.user.create({ data: data });
   return created.id;
@@ -24,10 +21,6 @@ export const getUser = async (userId) => {
     }
   );
 
-  if (!user) {
-    return null;
-  }
-
   return user;
 };
 
@@ -38,10 +31,6 @@ export const setPreference = async (userId, foodCategory) => {
       where: {name: foodCategory}
     }
   );
-
-  if (category.length == 0) {
-    return null;
-  }
 
   await prisma.userPrefer.create(
     {
@@ -80,10 +69,6 @@ export const getUserById = async (userId) => {
       where: {id: userId}
     }
   );
-
-  if (!user) {
-    return null;
-  }
 
   return user;
 }
