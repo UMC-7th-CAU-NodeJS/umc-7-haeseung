@@ -20,6 +20,8 @@ app.get("/", (req, res) => {
 });
 // auth 관련 api
 app.post("/api/users/signup", handleUserSignUp);
+
+// 사용자 관련 api
 app.get("/api/users/:userId/restaurants/:restaurantId/reviews", handleGetUserRestaurantReviewList);
 
 // restaurant 관련 api
