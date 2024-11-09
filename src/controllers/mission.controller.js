@@ -8,5 +8,13 @@ export const handleUserMissionAppend = async (req, res, next) => {
   console.log("mission_id:", req.params.missionId);
 
   const userMission = await addUserMission(bodyToUserMission(req.body, req.params.missionId));
-  res.status(StatusCodes.OK).json( {result: userMission} );
+  res.status(StatusCodes.OK).json( 
+    {
+      result: JSON.parse(
+        JSON.stringify(
+          userMission, (key, value) => typeof value === 'bigint' ? value.toString() : value
+          )
+      ),
+    }
+  );
 }

@@ -33,8 +33,8 @@ export const addRestaurant = async (data) => {
   // business logic: 레스토랑 등록
   const joinRestaurantId = await addRestaurantInRepo({
     name: data.name,
-    category_id: category.id,
-    location_id: location.id,
+    categoryId: category.id,
+    locationId: location.id,
     address: data.address,
     status: data.status,
     stars: 0
