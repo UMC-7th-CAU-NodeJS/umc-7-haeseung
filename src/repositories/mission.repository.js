@@ -6,7 +6,7 @@ export const addMissionToUser = async (data) => {
     {
       data: {
         userId: data.userId,
-        missionId: missionId,
+        missionId: data.missionId,
         status: "not_clear"
       }
     }
@@ -27,7 +27,7 @@ export const getUserMission = async (userMissionId) => {
 }
 
 // 미션 조회
-export const getMission = async (missionId) => {
+export const getMissionById = async (missionId) => {
   const mission = await prisma.mission.findFirst(
     {
       where: {id: missionId}
