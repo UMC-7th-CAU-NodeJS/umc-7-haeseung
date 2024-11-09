@@ -1,4 +1,3 @@
-import { pool } from "../db.config.js";
 import { prisma } from "../db.config.js";
 
 // User 데이터 삽입
@@ -73,3 +72,18 @@ export const getUserPreferencesByUserId = async (userId) => {
   console.log(preferences)
   return preferences;
 };
+
+// 사용자 조회
+export const getUserById = async (userId) => {
+  const user = await prisma.user.findFirst(
+    {
+      where: {id: userId}
+    }
+  );
+
+  if (!user) {
+    return null;
+  }
+
+  return user;
+}
