@@ -10,10 +10,10 @@ export const bodyToRestaurant = (body) => {
 
 export const responseFromRestaurant = (restaurant, location, category) => {
   return {
-    name: restaurant[0].name,
-    category: category[0].name,
-    location: location[0].name,
-    address: restaurant[0].address,
-    status: restaurant[0].status
+    name: restaurant.name,
+    category: category.name,
+    location: location.name,
+    address: restaurant.address,
+    status: restaurant.status
   }
 }

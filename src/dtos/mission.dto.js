@@ -7,8 +7,8 @@ export const bodyToUserMission = (body, missionId) => {
 
 export const responseFromUserMission = (userMission) => {
   return {
-    userId: userMission[0].userId,
-    missionId: userMission[0].missionId,
-    status: userMission[0].status
+    userId: userMission.userId,
+    missionId: userMission.missionId,
+    status: userMission.status
   }
 }

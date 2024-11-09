@@ -9,9 +9,9 @@ export const bodyToReview = (body, restaurantId) => {
 
 export const responseFromReview = (review) => {
   return {
-    authorId: review[0].author_id,
-    restaurantId: review[0].restaurant_id,
-    body: review[0].body,
-    stars: review[0].stars
+    authorId: review.author_id,
+    restaurantId: review.restaurant_id,
+    body: review.body,
+    stars: review.stars
   }
 }
