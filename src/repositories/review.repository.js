@@ -1,4 +1,4 @@
-import { pool } from "../db.config.js";
+import { prisma } from "../db.config.js";
 
 // Review 데이터 삽입
 export const addReview = async (data) => {
