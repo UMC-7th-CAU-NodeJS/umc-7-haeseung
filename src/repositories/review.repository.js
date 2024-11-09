@@ -21,3 +21,29 @@ export const getReviewById = async (reviewId) => {
 
   return review;
 }
+
+// 리뷰 list get
+export const getReviewListWithAuthorNameByAuthorIdAndRestaurantId = async (authorId, restaurantId) => {
+  const reviewList = await prisma.review.findMany(
+    {
+      select: {
+        id: true,
+        restaurantId: true,
+        body: true,
+        stars: true,
+        updatedAt: true,
+        isAnswered: true,
+        answer: true,
+        answeredAt: true,
+        authorId: true,
+        author: { select: { name: true } }
+      },
+      where: { 
+        authorId: authorId,
+        restaurantId: restaurantId
+       }
+    }
+  );
+  console.log(reviewList);
+  return reviewList;
+}

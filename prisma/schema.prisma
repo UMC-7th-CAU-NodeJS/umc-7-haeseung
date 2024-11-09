@@ -28,6 +28,8 @@ model User {
   status                      String?    @db.VarChar(10)
   inactiveDate                DateTime?  @map("inactive_date")
   account                     String?    @db.VarChar(20)
+  createdAt                   DateTime   @map("created_at") @default(now())
+  updatedAt                   DateTime   @map("updated_at") @updatedAt
   
   reviews                     Review[]
   inquiries                   Inquire[]
@@ -42,7 +44,9 @@ model User {
 
 model FoodCategory {
   id            BigInt        @id @default(autoincrement())
-  name          String?       @db.VarChar(100)
+  name          String        @db.VarChar(100)
+  createdAt     DateTime      @map("created_at") @default(now())
+  updatedAt     DateTime      @map("updated_at") @updatedAt
   
   restaurants   Restaurant[]
   userPreferences UserPrefer[]
@@ -51,11 +55,13 @@ model FoodCategory {
 }
 
 model UserPrefer {
-  id           BigInt      @id @default(autoincrement())
-  user         User        @relation(fields: [userId], references: [id])
-  userId       BigInt      @map("user_id")
-  category     FoodCategory @relation(fields: [categoryId], references: [id])
-  categoryId   BigInt      @map("category_id")
+  id            BigInt        @id @default(autoincrement())
+  user          User          @relation(fields: [userId], references: [id])
+  userId        BigInt        @map("user_id")
+  category      FoodCategory  @relation(fields: [categoryId], references: [id])
+  categoryId    BigInt        @map("category_id")
+  createdAt     DateTime      @map("created_at") @default(now())
+  updatedAt     DateTime      @map("updated_at") @updatedAt
   
   @@index([categoryId], map: "category_id")
   @@index([userId], map: "user_id")
@@ -64,14 +70,16 @@ model UserPrefer {
 
 model Restaurant {
   id            BigInt         @id @default(autoincrement())
-  name          String?        @db.VarChar(100)
-  category      FoodCategory?  @relation(fields: [categoryId], references: [id])
-  categoryId    BigInt?        @map("category_id")
-  location      Location?      @relation(fields: [locationId], references: [id])
-  locationId    BigInt?        @map("location_id")
+  name          String         @db.VarChar(100)
+  category      FoodCategory   @relation(fields: [categoryId], references: [id])
+  categoryId    BigInt         @map("category_id")
+  location      Location       @relation(fields: [locationId], references: [id])
+  locationId    BigInt         @map("location_id")
   address       String?        @db.VarChar(500)
   status        String?        @db.VarChar(20)
   stars         Float?
+  createdAt     DateTime       @map("created_at") @default(now())
+  updatedAt     DateTime       @map("updated_at") @updatedAt
   
   photos        RestaurantPhoto[]
   reviews       Review[]
@@ -85,13 +93,17 @@ model RestaurantPhoto {
   restaurant    Restaurant    @relation(fields: [restaurantId], references: [id])
   restaurantId  BigInt        @map("restaurant_id")
   imageUrl      String?       @map("image_url") @db.VarChar(500)
+  createdAt     DateTime      @map("created_at") @default(now())
+  updatedAt     DateTime      @map("updated_at") @updatedAt
   
   @@map("restaurant_photo")
 }
 
 model Location {
   id                 BigInt           @id @default(autoincrement())
-  name               String?          @db.VarChar(100)
+  name               String           @db.VarChar(100)
+  createdAt          DateTime         @map("created_at") @default(now())
+  updatedAt          DateTime         @map("updated_at") @updatedAt
   
   restaurants        Restaurant[]
   locationPointLogs  LocationPointLog[]
@@ -101,15 +113,17 @@ model Location {
 
 model Review {
   id            BigInt        @id @default(autoincrement())
-  body          String?       @db.VarChar(1000)
-  author        User?         @relation(fields: [authorId], references: [id])
-  authorId      BigInt?       @map("author_id")
-  restaurant    Restaurant?   @relation(fields: [restaurantId], references: [id])
-  restaurantId  BigInt?       @map("restaurant_id")
-  stars         Float?
-  isAnswered    Boolean?      @map("is_answered")
+  body          String        @db.VarChar(1000)
+  author        User          @relation(fields: [authorId], references: [id])
+  authorId      BigInt        @map("author_id")
+  restaurant    Restaurant    @relation(fields: [restaurantId], references: [id])
+  restaurantId  BigInt        @map("restaurant_id")
+  stars         Float
+  isAnswered    Boolean       @map("is_answered")
   answer        String?       @db.VarChar(1000)
   answeredAt    DateTime?     @map("answered_at")
+  createdAt     DateTime      @map("created_at") @default(now())
+  updatedAt     DateTime      @map("updated_at") @updatedAt
   
   photos        ReviewPhoto[]
   
@@ -121,19 +135,23 @@ model ReviewPhoto {
   review      Review        @relation(fields: [reviewId], references: [id])
   reviewId    BigInt        @map("review_id")
   imageUrl    String?       @map("image_url") @db.VarChar(500)
+  createdAt   DateTime      @map("created_at") @default(now())
+  updatedAt   DateTime      @map("updated_at") @updatedAt
   
   @@map("review_photo")
 }
 
 model Inquire {
   id              BigInt        @id @default(autoincrement())
-  title           String?       @db.VarChar(100)
-  type            String?       @db.VarChar(20)
-  body            String?       @db.VarChar(1000)
-  isAnswered      Boolean?      @map("is_answered")
+  title           String        @db.VarChar(100)
+  type            String        @db.VarChar(20)
+  body            String        @db.VarChar(1000)
+  isAnswered      Boolean       @map("is_answered")
   answer          String?       @db.VarChar(1000)
-  author          User?         @relation(fields: [authorId], references: [id])
-  authorId        BigInt?       @map("author_id")
+  author          User          @relation(fields: [authorId], references: [id])
+  authorId        BigInt        @map("author_id")
+  createdAt       DateTime      @map("created_at") @default(now())
+  updatedAt       DateTime      @map("updated_at") @updatedAt
   
   photos          InquirePhoto[]
   
@@ -145,17 +163,21 @@ model InquirePhoto {
   inquire     Inquire      @relation(fields: [inquireId], references: [id])
   inquireId   BigInt       @map("inquire_id")
   imageUrl    String?      @map("image_url") @db.VarChar(500)
+  createdAt   DateTime     @map("created_at") @default(now())
+  updatedAt   DateTime     @map("updated_at") @updatedAt
   
   @@map("inquire_photo")
 }
 
 model Mission {
   id            BigInt         @id @default(autoincrement())
-  restaurant    Restaurant?    @relation(fields: [restaurantId], references: [id])
-  restaurantId  BigInt?        @map("restaurant_id")
-  content       String?        @db.VarChar(500)
+  restaurant    Restaurant     @relation(fields: [restaurantId], references: [id])
+  restaurantId  BigInt         @map("restaurant_id")
+  content       String         @db.VarChar(500)
   deadline      DateTime?
-  point         Int?
+  point         Int
+  createdAt     DateTime       @map("created_at") @default(now())
+  updatedAt     DateTime       @map("updated_at") @updatedAt
   
   userMissions  UserMission[]
   
@@ -170,6 +192,8 @@ model UserMission {
   missionId          BigInt          @map("mission_id")
   status             String?         @db.VarChar(20)
   identifierNumber   String?         @map("identifier_number") @db.VarChar(500)
+  createdAt          DateTime        @map("created_at") @default(now())
+  updatedAt          DateTime        @map("updated_at") @updatedAt
   
   missionPointLogs   MissionPointLog[]
   
@@ -182,6 +206,8 @@ model MissionPointLog {
   userId        BigInt        @map("user_id")
   userMission   UserMission   @relation(fields: [userMissionId], references: [id])
   userMissionId BigInt        @map("user_mission_id")
+  createdAt     DateTime      @map("created_at") @default(now())
+  updatedAt     DateTime      @map("updated_at") @updatedAt
   
   @@map("mission_point_log")
 }
@@ -192,6 +218,8 @@ model LocationPointLog {
   userId        BigInt      @map("user_id")
   location      Location    @relation(fields: [locationId], references: [id])
   locationId    BigInt      @map("location_id")
+  createdAt     DateTime    @map("created_at") @default(now())
+  updatedAt     DateTime    @map("updated_at") @updatedAt
   
   @@map("location_point_log")
 }
@@ -200,6 +228,8 @@ model RepaymentPointLog {
   id            BigInt      @id @default(autoincrement())
   user          User        @relation(fields: [userId], references: [id])
   userId        BigInt      @map("user_id")
+  createdAt     DateTime    @map("created_at") @default(now())
+  updatedAt     DateTime    @map("updated_at") @updatedAt
   
   @@map("repayment_point_log")
 }
