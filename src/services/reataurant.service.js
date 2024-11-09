@@ -50,10 +50,10 @@ export const addRestaurant = async (data) => {
 // 리뷰 등록
 export const addReview = async (data) => {
   // validation: 작성자 및 레스토랑 조회
-  if (await getUserById(data.authorId)) {
+  if (!await getUserById(data.authorId)) {
     throw new Error("없는 사용자입니다.");
   }
-  if (await getRestaurantById(data.restaurantId)) {
+  if (!await getRestaurantById(data.restaurantId)) {
     throw new Error("없는 레스토랑입니다.");
   }
 

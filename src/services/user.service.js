@@ -9,7 +9,7 @@ import {
 
 export const userSignUp = async (data) => {
   // validation
-  if (await getUserByEmail(data.email) == null) {
+  if (await getUserByEmail(data.email) != null) {
     throw new Error("이미 존재하는 이메일입니다.");
   }
 
