@@ -1,35 +1,10 @@
-import { pool } from "../db.config.js";
 import { prisma } from "../db.config.js";
 
 // User 데이터 삽입
 export const addUser = async (data) => {
-  const user = await prisma.user.findFirst(
-    {
-      where: {email: data.email}
-    }
-  );
-
-  if (user) {
-    return null;
-  }
-
   const created = await prisma.user.create({ data: data });
+
   return created.id;
-};
-
-// 사용자 정보 얻기
-export const getUser = async (userId) => {
-  const user = await prisma.user.findFirst(
-    {
-      where: {id: userId}
-    }
-  );
-
-  if (!user) {
-    return null;
-  }
-
-  return user;
 };
 
 // 음식 선호 카테고리 매핑
@@ -39,10 +14,6 @@ export const setPreference = async (userId, foodCategory) => {
       where: {name: foodCategory}
     }
   );
-
-  if (category.length == 0) {
-    return null;
-  }
 
   await prisma.userPrefer.create(
     {
@@ -73,3 +44,25 @@ export const getUserPreferencesByUserId = async (userId) => {
   console.log(preferences)
   return preferences;
 };
+
+// 사용자 조회
+export const getUserById = async (userId) => {
+  const user = await prisma.user.findFirst(
+    {
+      where: {id: userId}
+    }
+  );
+
+  return user;
+}
+
+// 사용자 조회 By email
+export const getUserByEmail = async (userEmail) => {
+  const user = await prisma.user.findFirst(
+    {
+      where: {email: userEmail}
+    }
+  );
+
+  return user;
+}

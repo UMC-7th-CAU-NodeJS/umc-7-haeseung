@@ -1,7 +1,7 @@
 import { responseFromRestaurant } from "../dtos/restaurant.dto.js";
 import { 
   addRestaurant as addRestaurantInRepo, 
-  getRestaurant
+  getRestaurantById
 } from "../repositories/restaurant.repository.js";
 import { 
   getLocationByName,
@@ -13,47 +13,60 @@ import {
 } from "../repositories/category.repository.js";
 import { 
   addReview as addReviewRepo,
-  getReview
+  getReviewById
 } from "../repositories/review.repository.js";
 import { responseFromReview } from "../dtos/review.dto.js";
+import { getUserById } from "../repositories/user.repository.js";
 
+// 레스토랑 등록
 export const addRestaurant = async (data) => {
+  // validation: 장소, 카테고리 조회
   const location = await getLocationByName(data.location);
+  if (!location) {
+    throw new Error("없는 장소입니다.");
+  }
   const category = await getCategoryByName(data.category);
-
-  const joinRestaurantId = await addRestaurantInRepo({
-    name: data.name,
-    category_id: category[0].id,
-    location_id: location[0].id,
-    address: data.address,
-    status: data.status
-  });
-
-  if (joinRestaurantId === null) {
-    throw new Error("오류가 발생했습니다.");
+  if (!category) {
+    throw new Error("없는 카테고리입니다.");
   }
 
-  const restaurant = await getRestaurant(joinRestaurantId);
-  const restaurantCategory = await getCategoryById(restaurant[0].category_id);
-  const restaurantLocation = await getLocationById(restaurant[0].location_id);
+  // business logic: 레스토랑 등록
+  const joinRestaurantId = await addRestaurantInRepo({
+    name: data.name,
+    categoryId: category.id,
+    locationId: location.id,
+    address: data.address,
+    status: data.status,
+    stars: 0
+  });
 
+  // response
+  const restaurant = await getRestaurantById(joinRestaurantId);
+  const restaurantCategory = await getCategoryById(restaurant.category_id);
+  const restaurantLocation = await getLocationById(restaurant.location_id);
   return responseFromRestaurant(restaurant, restaurantLocation, restaurantCategory);
 }
 
 // 리뷰 등록
 export const addReview = async (data) => {
+  // validation: 작성자 및 레스토랑 조회
+  if (!await getUserById(data.authorId)) {
+    throw new Error("없는 사용자입니다.");
+  }
+  if (!await getRestaurantById(data.restaurantId)) {
+    throw new Error("없는 레스토랑입니다.");
+  }
+
+  // business logic: 리뷰 추가
   const joinReviewId = await addReviewRepo({
     authorId: data.authorId,
     restaurantId: data.restaurantId,
     body: data.body,
-    stars: data.stars
+    stars: data.stars,
+    isAnswered: false
   });
 
-  if (joinReviewId === null) {
-    throw new Error("오류가 발생했습니다.");
-  }
-
-  const review = await getReview(joinReviewId);
-
+  // response
+  const review = await getReviewById(joinReviewId);
   return responseFromReview(review);
 }
