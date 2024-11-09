@@ -1,7 +1,7 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import { handleGetUserReviewList, handleUserSignUp } from "./controllers/user.controller.js";
+import { handleGetUserRestaurantReviewList, handleUserSignUp } from "./controllers/user.controller.js";
 import { handleRestaurantAppend, handleRestaurantReviewAppend } from "./controllers/restaurant.controller.js";
 import { handleUserMissionAppend } from "./controllers/mission.controller.js";
 
@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 });
 // auth 관련 api
 app.post("/api/users/signup", handleUserSignUp);
-app.get("/api/users/:userId/reviews", handleGetUserReviewList);
+app.get("/api/users/:userId/restaurants/:restaurantId/reviews", handleGetUserRestaurantReviewList);
 
 // restaurant 관련 api
 app.post("/api/restaurants/:restaurantId/reviews", handleRestaurantReviewAppend);
