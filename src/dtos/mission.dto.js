@@ -7,6 +7,7 @@ export const bodyToUserMission = (body, missionId) => {
 
 export const responseFromUserMission = (userMission) => {
   return {
+    uesrMissionId: userMission.id,
     userId: userMission.userId,
     missionId: userMission.missionId,
     status: userMission.status

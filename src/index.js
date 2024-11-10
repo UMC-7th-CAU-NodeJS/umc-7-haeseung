@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import { handleGetUserRestaurantReviewList, handleUserSignUp } from "./controllers/user.controller.js";
 import { handleRestaurantAppend, handleRestaurantReviewAppend } from "./controllers/restaurant.controller.js";
-import { handleUserMissionAppend } from "./controllers/mission.controller.js";
+import { handleClearUserMission, handleUserMissionAppend } from "./controllers/mission.controller.js";
 
 dotenv.config();
 
@@ -61,6 +61,7 @@ app.post("/api/restaurants", handleRestaurantAppend);
 
 // 미션 관련 api
 app.post("/api/missions/:missionId", handleUserMissionAppend);
+app.patch("/api/user-missions/:userMissionId", handleClearUserMission);
 
 /**
  * 전역 오류를 처리하기 위한 미들웨어
