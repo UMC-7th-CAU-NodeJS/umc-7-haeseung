@@ -17,6 +17,8 @@ import {
 } from "../repositories/review.repository.js";
 import { responseFromReview } from "../dtos/review.dto.js";
 import { getUserById } from "../repositories/user.repository.js";
+import { getMissionByRestaurantId } from "../repositories/mission.repository.js";
+import { responseFromMissionList, responseFromUserMission } from "../dtos/mission.dto.js";
 import { CategoryNotExist, LocationNotExist, MemberNotExist, RestaurantNotExist } from "../errors.js";
 
 // 레스토랑 등록
@@ -70,4 +72,18 @@ export const addReview = async (data) => {
   // response
   const review = await getReviewById(joinReviewId);
   return responseFromReview(review);
+};
+
+// 미션 리스트
+export const getRestaurantMissionList = async (restaurantId) => {
+  // validation
+  if (!await getRestaurantById(restaurantId)) {
+    throw new Error("없는 레스토랑입니다.");
+  }
+
+  // business logic
+  const missionList = await getMissionByRestaurantId(restaurantId);
+
+  // response
+  return responseFromMissionList(missionList);
 }

@@ -51,6 +51,18 @@ export const getUserMissionByUserIdAndMissionId = async (userId, missionId) => {
   return userMission;
 }
 
+export const getMissionByRestaurantId = async (restaurantId) => {
+  const restaurantMission = await prisma.mission.findMany(
+    {
+      where: {
+        restaurantId: restaurantId
+      }
+    }
+  );
+
+  return restaurantMission;
+}
+
 // 사용자 미션 클리어로 변환
 export const setUserMissionClear = async (userMissionId) => {
   const userMission = await prisma.userMission.update(
