@@ -9,6 +9,7 @@ import {
 } from "../repositories/mission.repository.js";
 import { getUserById } from "../repositories/user.repository.js"
 
+// 사용자에게 가게의 미션을 추가
 export const addUserMission = async (data) => {
   // validation: 사용자 존재 유무, 미션 존재 유무, 수락 완료된 미션 여부
   if (!await getUserById(data.userId)) {
@@ -32,6 +33,7 @@ export const addUserMission = async (data) => {
   return responseFromUserMission(userMission);
 }
 
+// 미션의 상태 클리어로 변경
 export const changeMissionStatusToClear = async (userMissionId) => {
   // validation: 사용자 미션 존재 유무, 현재 상태
   const userMission = await getUserMission(userMissionId);

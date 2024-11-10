@@ -36,6 +36,7 @@ export const userSignUp = async (data) => {
   return responseFromUser(user, preferences);
 };
 
+// 내가 특정 레스토랑에 쓴 리뷰 요청
 export const getReviewsOfUserAndRestaurant = async (userId, restaurantId) => {
   // validation
   if (!await getUserById(userId)) {
