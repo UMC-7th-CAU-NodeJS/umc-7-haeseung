@@ -1,4 +1,5 @@
 import { responseFromUserMission } from "../dtos/mission.dto.js";
+import { AlreadyExistUserMission, MemberNotExist, MissionNotExist } from "../errors.js";
 import { 
   addMissionToUser,
   getMissionById,
@@ -10,13 +11,16 @@ import { getUserById } from "../repositories/user.repository.js"
 export const addUserMission = async (data) => {
   // validation: 사용자 존재 유무, 미션 존재 유무, 수락 완료된 미션 여부
   if (!await getUserById(data.userId)) {
-    throw new Error("없는 사용자입니다.");
+    throw new MemberNotExist({userId: data.userId});
   }
   if (!await getMissionById(data.missionId)) {
-    throw new Error("없는 미션입니다.");
+    throw new MissionNotExist({missionId: data.missionId});
   }
   if (await getUserMissionByUserIdAndMissionId(data.userId, data.missionId)) {
-    throw new Error("이미 수행 중이거나 완료 설정된 미션입니다.");
+    throw new AlreadyExistUserMission({
+      userId: data.userId,
+      missionId: data.missionId
+    });
   }
 
   // business logic

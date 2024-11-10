@@ -8,7 +8,7 @@ export const handleUserMissionAppend = async (req, res, next) => {
   console.log("mission_id:", req.params.missionId);
 
   const userMission = await addUserMission(bodyToUserMission(req.body, req.params.missionId));
-  res.status(StatusCodes.OK).json( 
+  res.status(StatusCodes.OK).success( 
     {
       result: JSON.parse(
         JSON.stringify(

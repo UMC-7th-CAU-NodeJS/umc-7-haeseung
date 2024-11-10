@@ -8,7 +8,7 @@ export const handleRestaurantAppend = async (req, res, next) => {
   console.log("body:", req.body);
 
   const restaurant = await addRestaurant(bodyToRestaurant(req.body))
-  res.status(StatusCodes.OK).json({ result: restaurant });
+  res.status(StatusCodes.OK).success({ result: restaurant });
 }
 
 export const handleRestaurantReviewAppend = async (req, res, next) => {
@@ -17,7 +17,7 @@ export const handleRestaurantReviewAppend = async (req, res, next) => {
   console.log("restaurant_id:", req.params.restaurantId);
 
   const review = await addReview(bodyToReview(req.body, req.params.restaurantId));
-  res.status(StatusCodes.OK).json(
+  res.status(StatusCodes.OK).success(
     {
       result: JSON.parse(
         JSON.stringify(

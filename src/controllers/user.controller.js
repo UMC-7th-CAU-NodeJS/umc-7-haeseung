@@ -7,14 +7,14 @@ export const handleUserSignUp = async (req, res, next) => {
   console.log("body:", req.body); // 값이 잘 들어오나 확인하기 위한 테스트용
 
   const user = await userSignUp(bodyToUser(req.body));
-  res.status(StatusCodes.OK).json({ result: user });
+  res.status(StatusCodes.OK).success({ result: user });
 };
 
 export const handleGetUserRestaurantReviewList = async (req, res, next) => {
   console.log("작성한 리뷰 조회를 요청했습니다!");
 
   const reviewList = await getReviewsOfUserAndRestaurant(req.params.userId, req.params.restaurantId);
-  res.status(StatusCodes.OK).json(
+  res.status(StatusCodes.OK).success(
     {
       result: JSON.parse(
         JSON.stringify(
