@@ -33,7 +33,7 @@ export const handleGetRestaurantMissionList = async (req, res, next) => {
   console.log("restaurant_id:", req.params.restaurantId);
 
   const missionList = await getRestaurantMissionList(req.params.restaurantId);
-  res.status(StatusCodes.OK).json(
+  res.status(StatusCodes.OK).success(
     {
       result: JSON.parse(
         JSON.stringify(

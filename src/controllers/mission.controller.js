@@ -24,7 +24,7 @@ export const handleClearUserMission = async (req, res, next) => {
   console.log("userMissionId:", req.params.userMissionId);
 
   const userMission = await changeMissionStatusToClear(req.params.userMissionId);
-  res.status(StatusCodes.OK).json(
+  res.status(StatusCodes.OK).success(
     {
       result: JSON.parse(
         JSON.stringify(

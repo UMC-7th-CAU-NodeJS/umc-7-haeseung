@@ -78,7 +78,7 @@ export const addReview = async (data) => {
 export const getRestaurantMissionList = async (restaurantId) => {
   // validation
   if (!await getRestaurantById(restaurantId)) {
-    throw new Error("없는 레스토랑입니다.");
+    throw new RestaurantNotExist({restaurantId: restaurantId});
   }
 
   // business logic

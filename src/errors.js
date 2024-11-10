@@ -67,3 +67,23 @@ export class AlreadyExistUserMission extends Error {
     this.data = data;
   }
 }
+
+export class UserMissionNotExist extends Error {
+  errorCode = "M003";
+  reason = "존재하지 않는 유저 미션 입니다.";
+
+  constructor(data) {
+    super();
+    this.data = data;
+  }
+}
+
+export class UserMissionAlreadyCleared extends Error {
+  errorCode = "M004";
+  reason = "이미 수행 완료 상태인 미션입니다.";
+
+  constructor(data) {
+    super();
+    this.data = data;
+  }
+}
