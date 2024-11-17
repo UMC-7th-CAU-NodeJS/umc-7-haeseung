@@ -149,7 +149,7 @@ export const handleGetRestaurantMissionList = async (req, res, next) => {
                       properties: {
                         restaurantId:  { type: "string", example: "0" },
                         content:  { type: "string"},
-                        deadline:  { type: "datetime" },
+                        deadline:  { type: "string", example: "2000-02-03T00:00:00.000Z" },
                         point:  { type: "number" }
                       }
                     }
