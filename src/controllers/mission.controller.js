@@ -68,22 +68,9 @@ export const handleUserMissionAppend = async (req, res, next) => {
 
 export const handleClearUserMission = async (req, res, next) => {
   /*
-    #swagger.summary = "사용자-미션 추가 API";
-    #swagger.requestBody = {
-      required: true,
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            properties: {
-              requesterId: { type: "number" }
-            }  
-          }
-        }
-      }
-    };
+    #swagger.summary = "사용자-미션 클리어 API";
     #swagger.responses[200] = {
-      description: "사용자 미션 할당 성공",
+      description: "사용자 미션 성공",
       content: {
         "application/json": {
           schema: {
