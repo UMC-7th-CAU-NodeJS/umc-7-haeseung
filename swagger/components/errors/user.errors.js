@@ -27,7 +27,7 @@ export const userErrors = {
       },
     },
   },
-  AlreadyExistUserEmail: {
+  DuplicateUserEmailError: {
     description: "이미 존재하는 사용자 이메일",
     content: {
       "application/json": {

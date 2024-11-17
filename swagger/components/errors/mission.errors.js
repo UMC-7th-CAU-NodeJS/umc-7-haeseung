@@ -81,7 +81,7 @@ export const missionErrors = {
       },
     },
   },
-  UserMissionNotExist: {
+  UserMissionAlreadyCleared: {
     description: "이미 수행 완료 상태인 미션",
     content: {
       "application/json": {
