@@ -73,7 +73,7 @@ export const handleGetUserRestaurantReviewList = async (req, res, next) => {
   /*
     #swagger.summary = "특정 식당에 대한 나의 리뷰 조회 API";
     #swagger.responses[200] = {
-      description: "회원가입 성공",
+      description: "나의 리뷰 조회 성공",
       content: {
         "application/json": {
           schema: {
