@@ -1,5 +1,6 @@
 import { responseFromReviewList } from "../dtos/review.dto.js";
 import { responseFromUser } from "../dtos/user.dto.js";
+import { DuplicateUserEmailError, MemberNotExist } from "../errors.js";
 import { getReviewListWithAuthorNameByAuthorIdAndRestaurantId } from "../repositories/review.repository.js";
 import {
   addUser,
@@ -12,7 +13,7 @@ import {
 export const userSignUp = async (data) => {
   // validation
   if (await getUserByEmail(data.email) != null) {
-    throw new Error("이미 존재하는 이메일입니다.");
+    throw new DuplicateUserEmailError(data);
   }
 
   // business logic
@@ -35,10 +36,11 @@ export const userSignUp = async (data) => {
   return responseFromUser(user, preferences);
 };
 
+// 내가 특정 레스토랑에 쓴 리뷰 요청
 export const getReviewsOfUserAndRestaurant = async (userId, restaurantId) => {
   // validation
   if (!await getUserById(userId)) {
-    throw new Error("없는 유저입니다.");
+    throw new MemberNotExist({userId: userId});
   }
 
   // business logic
