@@ -46,35 +46,8 @@ export const handleUserMissionAppend = async (req, res, next) => {
         }
       }
     };
-    #swagger.responses[400] = {
-      description: "이미 수행 중이거나 완료된 미션",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            properties: {
-              resultType: { type: "string", example: "FAIL" },
-              error: { 
-                type: "object", 
-                properties: {
-                  errorCode: { type: "string", example: "M002" },
-                  reason: { type: "string", example: "이미 수행 중이거나 완료 설정된 미션입니다." },
-                  data: {
-                    type: "object",
-                    properties: {
-                      userId: { type: "string", example: "0" },
-                      missionId: { type: "string", example: "0" }
-                    }
-                  }
-                }
-              },
-              success: { type: "object", nullable: true, example: null }
-            }
-          }
-        }
-      }
-    };
-  */
+    #swagger.responses[400] = { $ref: "#/components/responses/AlreadyExistUserMission" };
+    */
   console.log("사용자 미션 할당을 요청했습니다!");
   console.log("body:", req.body);
   console.log("mission_id:", req.params.missionId);

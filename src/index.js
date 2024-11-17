@@ -6,6 +6,8 @@ import { handleGetRestaurantMissionList, handleRestaurantAppend, handleRestauran
 import { handleClearUserMission, handleUserMissionAppend } from "./controllers/mission.controller.js";
 import swaggerAutogen from "swagger-autogen";
 import swaggerUiExpress from "swagger-ui-express";
+import { missionErrors } from "../swagger/components/errors/mission.errors.js";
+import { userErrors } from "../swagger/components/errors/user.errors.js";
 
 dotenv.config();
 
@@ -73,6 +75,12 @@ app.get("/openapi.json", async (req, res, next) => {
       description: "UMC 7th Node.js 테스트 프로젝트입니다.",
     },
     host: "localhost:3000",
+    components: {
+      responses: {
+        ...missionErrors,  // mission 오류 추가
+        ...userErrors    
+      }
+    }
   };
 
   const result = await swaggerAutogen(options)(outputFile, routes, doc);
