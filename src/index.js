@@ -8,6 +8,7 @@ import swaggerAutogen from "swagger-autogen";
 import swaggerUiExpress from "swagger-ui-express";
 import { missionErrors } from "../swagger/components/errors/mission.errors.js";
 import { userErrors } from "../swagger/components/errors/user.errors.js";
+import { otherErrors } from '../swagger/components/errors/other.errors.js';
 
 dotenv.config();
 
@@ -77,8 +78,9 @@ app.get("/openapi.json", async (req, res, next) => {
     host: "localhost:3000",
     components: {
       responses: {
-        ...missionErrors,  // mission 오류 추가
-        ...userErrors    
+        ...missionErrors,
+        ...userErrors,
+        ...otherErrors
       }
     }
   };

@@ -43,7 +43,61 @@ export const missionErrors = {
                 data: {
                   type: "object",
                   properties: {
-                    userId: { type: "string", example: "0" },
+                    missionId: { type: "string", example: "0" },
+                  },
+                },
+              },
+            },
+            success: { type: "object", nullable: true, example: null },
+          },
+        },
+      },
+    },
+  },
+  UserMissionNotExist: {
+    description: "존재하지 않는 유저 미션",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            resultType: { type: "string", example: "FAIL" },
+            error: {
+              type: "object",
+              properties: {
+                errorCode: { type: "string", example: "M003" },
+                reason: { type: "string", example: "존재하지 않는 유저 미션 입니다." },
+                data: {
+                  type: "object",
+                  properties: {
+                    userMissionId: { type: "string", example: "0" },
+                  },
+                },
+              },
+            },
+            success: { type: "object", nullable: true, example: null },
+          },
+        },
+      },
+    },
+  },
+  UserMissionNotExist: {
+    description: "이미 수행 완료 상태인 미션",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            resultType: { type: "string", example: "FAIL" },
+            error: {
+              type: "object",
+              properties: {
+                errorCode: { type: "string", example: "M004" },
+                reason: { type: "string", example: "이미 수행 완료 상태인 미션입니다." },
+                data: {
+                  type: "object",
+                  properties: {
+                    userMissionId: { type: "string", example: "0" },
                   },
                 },
               },
