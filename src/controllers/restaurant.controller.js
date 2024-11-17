@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { bodyToRestaurant } from "../dtos/restaurant.dto.js";
-import { addRestaurant, addReview, getRestaurantMissionList } from "../services/reataurant.service.js";
+import { addRestaurant, addReview, getRestaurantMissionList } from "../services/restaurant.service.js";
 import { bodyToReview } from "../dtos/review.dto.js";
 
 export const handleRestaurantAppend = async (req, res, next) => {
