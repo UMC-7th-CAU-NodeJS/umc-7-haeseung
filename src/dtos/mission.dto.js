@@ -13,3 +13,21 @@ export const responseFromUserMission = (userMission) => {
     status: userMission.status
   }
 }
+
+export const responseFromMission = (mission) => {
+  return {
+    restaurantId: mission.restaurantId,
+    content: mission.content,
+    deadline: mission.deadline,
+    point: mission.point
+  }
+}
+
+export const responseFromMissionList = (missionList) => {
+  const list = [];
+  for (const mission of missionList) {
+    list.push(responseFromMission(mission));
+  }
+
+  return list;
+}

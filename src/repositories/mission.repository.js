@@ -62,3 +62,15 @@ export const setUserMissionClear = async (userMissionId) => {
 
   return userMission;
 }
+
+export const getMissionByRestaurantId = async (restaurantId) => {
+  const restaurantMission = await prisma.mission.findMany(
+    {
+      where: {
+        restaurantId: restaurantId
+      }
+    }
+  );
+
+  return restaurantMission;
+}
