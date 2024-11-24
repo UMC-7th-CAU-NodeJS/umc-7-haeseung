@@ -46,9 +46,7 @@ export const handleUserMissionAppend = async (req, res, next) => {
         }
       }
     };
-    #swagger.responses[400-1] = { $ref: "#/components/responses/MemberNotExist" };
-    #swagger.responses[400-2] = { $ref: "#/components/responses/MissionNotExist" };
-    #swagger.responses[400-3] = { $ref: "#/components/responses/AlreadyExistUserMission" };
+    #swagger.responses[400] = { $ref: "#/components/responses/MemberNotExist", $ref: "#/components/responses/MissionNotExist", $ref: "#/components/responses/AlreadyExistUserMission" };
   */
   console.log("사용자 미션 할당을 요청했습니다!");
   console.log("body:", req.body);
