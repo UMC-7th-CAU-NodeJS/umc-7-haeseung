@@ -19,17 +19,18 @@ import { responseFromReview } from "../dtos/review.dto.js";
 import { getUserById } from "../repositories/user.repository.js";
 import { getMissionByRestaurantId } from "../repositories/mission.repository.js";
 import { responseFromMissionList, responseFromUserMission } from "../dtos/mission.dto.js";
+import { CategoryNotExist, LocationNotExist, MemberNotExist, RestaurantNotExist } from "../errors.js";
 
 // 레스토랑 등록
 export const addRestaurant = async (data) => {
   // validation: 장소, 카테고리 조회
   const location = await getLocationByName(data.location);
   if (!location) {
-    throw new Error("없는 장소입니다.");
+    throw new LocationNotExist({location: data.location});
   }
   const category = await getCategoryByName(data.category);
   if (!category) {
-    throw new Error("없는 카테고리입니다.");
+    throw new CategoryNotExist({category: data.category});
   }
 
   // business logic: 레스토랑 등록
@@ -53,10 +54,10 @@ export const addRestaurant = async (data) => {
 export const addReview = async (data) => {
   // validation: 작성자 및 레스토랑 조회
   if (!await getUserById(data.authorId)) {
-    throw new Error("없는 사용자입니다.");
+    throw new MemberNotExist({authorId: data.authorId});
   }
   if (!await getRestaurantById(data.restaurantId)) {
-    throw new Error("없는 레스토랑입니다.");
+    throw new RestaurantNotExist({restaurantId: data.restaurantId});
   }
 
   // business logic: 리뷰 추가
@@ -77,7 +78,7 @@ export const addReview = async (data) => {
 export const getRestaurantMissionList = async (restaurantId) => {
   // validation
   if (!await getRestaurantById(restaurantId)) {
-    throw new Error("없는 레스토랑입니다.");
+    throw new RestaurantNotExist({restaurantId: restaurantId});
   }
 
   // business logic
