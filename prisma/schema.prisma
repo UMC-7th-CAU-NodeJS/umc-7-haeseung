@@ -21,7 +21,7 @@ model User {
   gender                      String     @db.VarChar(50)
   birth                       DateTime?
   address                     String?    @db.VarChar(500)
-  email                       String     @unique @db.VarChar(20)
+  email                       String     @unique @db.VarChar(50)
   phoneOk                     Boolean?   @map("phone_ok")
   phoneNumber                 String?    @map("phone_number") @db.VarChar(20)
   point                       BigInt?

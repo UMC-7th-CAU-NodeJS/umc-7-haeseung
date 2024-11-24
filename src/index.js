@@ -12,12 +12,13 @@ import { otherErrors } from '../swagger/components/errors/other.errors.js';
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import session from "express-session";
 import passport from "passport";
-import { googleStrategy } from "./auth.config.js";
+import { googleStrategy, githubStrategy } from "./auth.config.js";
 import { prisma } from "./db.config.js";
 
 dotenv.config();
 
 passport.use(googleStrategy);
+passport.use(githubStrategy);
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
@@ -126,6 +127,16 @@ app.get(
   }),
   (req, res) => res.redirect("/")
 );
+
+app.get("/oauth2/login/github", passport.authenticate("github"));
+app.get(
+  "/oauth2/callback/github",
+  passport.authenticate("github", {
+    failureRedirect: "/oauth2/login/github",
+    failureMessage: true,
+  }),
+  (req, res) => res.redirect("/")
+)
 
 app.get("/", (req, res) => {
   // #swagger.ignore = true
