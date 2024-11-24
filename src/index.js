@@ -9,8 +9,17 @@ import swaggerUiExpress from "swagger-ui-express";
 import { missionErrors } from "../swagger/components/errors/mission.errors.js";
 import { userErrors } from "../swagger/components/errors/user.errors.js";
 import { otherErrors } from '../swagger/components/errors/other.errors.js';
+import { PrismaSessionStore } from "@quixo3/prisma-session-store";
+import session from "express-session";
+import passport from "passport";
+import { googleStrategy } from "./auth.config.js";
+import { prisma } from "./db.config.js";
 
 dotenv.config();
+
+passport.use(googleStrategy);
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((user, done) => done(null, user));
 
 const app = express();
 const port = process.env.PORT;
@@ -61,6 +70,25 @@ app.use(
   })
 );
 
+app.use(
+  session({
+    cookie: {
+      maxAge: 7 * 24 * 60 * 60 * 1000, // ms
+    },
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.EXPRESS_SESSION_SECRET,
+    store: new PrismaSessionStore(prisma, {
+      checkPeriod: 2 * 60 * 1000, // ms
+      dbRecordIdIsSessionId: true,
+      dbRecordIdFunction: undefined,
+    }),
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.get("/openapi.json", async (req, res, next) => {
   // #swagger.ignore = true
   const options = {
@@ -89,7 +117,19 @@ app.get("/openapi.json", async (req, res, next) => {
   res.json(result ? result.data : null);
 });
 
+app.get("/oauth2/login/google", passport.authenticate("google"));
+app.get(
+  "/oauth2/callback/google",
+  passport.authenticate("google", {
+    failureRedirect: "/oauth2/login/google",
+    failureMessage: true,
+  }),
+  (req, res) => res.redirect("/")
+);
+
 app.get("/", (req, res) => {
+  // #swagger.ignore = true
+  console.log(req.user);
   res.send("Hello World!");
 });
 // auth 관련 api
