@@ -66,3 +66,22 @@ export const getUserByEmail = async (userEmail) => {
 
   return user;
 }
+
+// 사용자 정보 갱신
+export const updateUser = async (data) => {
+  const user = await prisma.user.update(
+    {
+      where: {
+        id: data.userId,
+      },
+      data: {
+        gender: data.gender,
+        birth: data.birth,
+        address: data.address,
+        phoneNumber: data.phoneNumber,
+      }
+    }
+  )
+
+  return user;
+}

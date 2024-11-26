@@ -1,7 +1,7 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import { handleGetUserRestaurantReviewList, handleUserSignUp } from "./controllers/user.controller.js";
+import { handleGetUserRestaurantReviewList, handleUpdateUserInfo, handleUserSignUp } from "./controllers/user.controller.js";
 import { handleGetRestaurantMissionList, handleRestaurantAppend, handleRestaurantReviewAppend } from "./controllers/restaurant.controller.js";
 import { handleClearUserMission, handleUserMissionAppend } from "./controllers/mission.controller.js";
 import swaggerAutogen from "swagger-autogen";
@@ -148,6 +148,7 @@ app.post("/api/users/signup", handleUserSignUp);
 
 // 사용자 관련 api
 app.get("/api/users/restaurants/:restaurantId/reviews", handleGetUserRestaurantReviewList);
+app.patch("/api/my-profile", handleUpdateUserInfo);
 
 // restaurant 관련 api
 app.post("/api/restaurants/:restaurantId/reviews", handleRestaurantReviewAppend);

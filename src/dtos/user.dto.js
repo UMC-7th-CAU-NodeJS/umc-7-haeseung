@@ -28,3 +28,16 @@ export const responseFromUser = (user, preferences) => {
     preferences: preferenceList
   }
 }
+
+export const updateBodyToUser = (userId, body) => {
+  const birth = new Date(body.birth);
+
+  return {
+    userId: userId,
+    gender: body.gender,
+    birth,
+    address: body.address || "",
+    phoneNumber: body.phoneNumber,
+    preferences: body.preferences,
+  };
+}

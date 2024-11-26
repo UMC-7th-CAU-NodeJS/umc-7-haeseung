@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
-import { bodyToUser } from "../dtos/user.dto.js";
-import { getReviewsOfUserAndRestaurant, userSignUp } from "../services/user.service.js";
+import { bodyToUser, updateBodyToUser } from "../dtos/user.dto.js";
+import { getReviewsOfUserAndRestaurant, updateUserProfile, userSignUp } from "../services/user.service.js";
 
 export const handleUserSignUp = async (req, res, next) => {
   /*
@@ -123,3 +123,75 @@ export const handleGetUserRestaurantReviewList = async (req, res, next) => {
     }
   );
 };
+
+export const handleUpdateUserInfo = async (req, res, next) => {
+  /*
+    #swagger.summary = "사용자 정보 갱신 API";
+    #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              gender: { type: "string", example: "남성" },
+              birth: { type: "string", example: "2000-01-01" },
+              address: { type: "string" },
+              phoneNumber: { type: "string", example: "010-0000-0000" },
+              preferences: { 
+                type: "array",
+                items: { type: "string" }
+              }
+            }  
+          }
+        }
+      }
+    };
+    #swagger.responses[200] = {
+      description: "회원가입 성공",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              resultType: { type: "string", example: "SUCCESS" },
+              error: { type: "object", nullable: true, example: null },
+              success: { 
+                type: "object",
+                properties: {
+                  result: {
+                    type: "object",
+                    properties: {
+                      email: { type: "string", example: "test@test.test" },
+                      name: { type: "string", example: "test" },
+                      gender: { type: "string", example: "남성" },
+                      birth: { type: "string", example: "2000-01-01" },
+                      address: { type: "string" },
+                      preferences: { 
+                        type: "array",
+                        items: { type: "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+    #swagger.responses[400-1] = { $ref: "#/components/responses/DuplicateUserEmailError" };
+  */
+  console.log("사용자 프로필 갱신을 요청했습니다!");
+
+  const user = await updateUserProfile(updateBodyToUser(req.user.id, req.body));
+  res.status(StatusCodes.OK).success(
+    {
+      result: JSON.parse(
+        JSON.stringify(
+          user, (key, value) => typeof value === 'bigint' ? value.toString() : value
+        )
+      ),
+    }
+  );
+}
