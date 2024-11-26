@@ -147,7 +147,7 @@ app.get("/", (req, res) => {
 app.post("/api/users/signup", handleUserSignUp);
 
 // 사용자 관련 api
-app.get("/api/users/:userId/restaurants/:restaurantId/reviews", handleGetUserRestaurantReviewList);
+app.get("/api/users/restaurants/:restaurantId/reviews", handleGetUserRestaurantReviewList);
 
 // restaurant 관련 api
 app.post("/api/restaurants/:restaurantId/reviews", handleRestaurantReviewAppend);

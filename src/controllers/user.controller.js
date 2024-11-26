@@ -112,7 +112,7 @@ export const handleGetUserRestaurantReviewList = async (req, res, next) => {
   */
   console.log("작성한 리뷰 조회를 요청했습니다!");
 
-  const reviewList = await getReviewsOfUserAndRestaurant(req.params.userId, req.params.restaurantId);
+  const reviewList = await getReviewsOfUserAndRestaurant(req.user.id, req.params.restaurantId);
   res.status(StatusCodes.OK).success(
     {
       result: JSON.parse(

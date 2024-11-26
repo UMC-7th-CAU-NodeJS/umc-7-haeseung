@@ -1,6 +1,6 @@
-export const bodyToUserMission = (body, missionId) => {
+export const bodyToUserMission = (userId, missionId) => {
   return {
-    userId: body.requesterId,
+    userId: userId,
     missionId: missionId
   }
 }
