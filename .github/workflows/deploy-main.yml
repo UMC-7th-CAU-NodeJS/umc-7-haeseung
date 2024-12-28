@@ -25,8 +25,6 @@ jobs:
             User $EC2_USER
             IdentityFile ~/.ssh/id_rsa
             StrictHostKeyChecking no
-            ServerAliveInterval 60
-            ServerAliveCountMax 5
           END
         env:
           EC2_USER: ubuntu
@@ -41,7 +39,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          ssh -v playground-umc-7th 'npm install --prefix /opt/app/ --loglevel verbose'
+          ssh playground-umc-7th 'npm install --prefix /opt/app/'
 
       - name: Copy systemd service file
         run: |
