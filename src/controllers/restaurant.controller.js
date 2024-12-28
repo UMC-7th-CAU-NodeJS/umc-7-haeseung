@@ -72,7 +72,6 @@ export const handleRestaurantReviewAppend = async (req, res, next) => {
           schema: {
             type: "object",
             properties: {
-              authorId: { type: "number" },
               body: { type: "string" },
               stars: { type: "number", example: "4.5" }
             }  
@@ -112,10 +111,11 @@ export const handleRestaurantReviewAppend = async (req, res, next) => {
     #swagger.responses[400-2] = { $ref: "#/components/responses/RestaurantNotExist" };
   */
   console.log("리뷰 등록을 요청했습니다.");
+  console.log("author:", req.user);
   console.log("body:", req.body);
   console.log("restaurant_id:", req.params.restaurantId);
 
-  const review = await addReview(bodyToReview(req.body, req.params.restaurantId));
+  const review = await addReview(bodyToReview(req.body, req.params.restaurantId, req.user.id));
   res.status(StatusCodes.OK).success(
     {
       result: JSON.parse(

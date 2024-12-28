@@ -1,6 +1,6 @@
-export const bodyToReview = (body, restaurantId) => {
+export const bodyToReview = (body, restaurantId, userId) => {
   return {
-    authorId: body.authorId,
+    authorId: userId,
     restaurantId: restaurantId,
     body: body.body,
     stars: body.stars

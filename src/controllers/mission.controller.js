@@ -5,19 +5,6 @@ import { addUserMission, changeMissionStatusToClear } from "../services/mission.
 export const handleUserMissionAppend = async (req, res, next) => {
   /*
     #swagger.summary = "사용자-미션 추가 API";
-    #swagger.requestBody = {
-      required: true,
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            properties: {
-              requesterId: { type: "number" }
-            }  
-          }
-        }
-      }
-    };
     #swagger.responses[200] = {
       description: "사용자 미션 할당 성공",
       content: {
@@ -52,10 +39,10 @@ export const handleUserMissionAppend = async (req, res, next) => {
     };
   */
   console.log("사용자 미션 할당을 요청했습니다!");
-  console.log("body:", req.body);
+  console.log("requester:", req.user);
   console.log("mission_id:", req.params.missionId);
 
-  const userMission = await addUserMission(bodyToUserMission(req.body, req.params.missionId));
+  const userMission = await addUserMission(bodyToUserMission(req.user.id, req.params.missionId));
   res.status(StatusCodes.OK).success( 
     {
       result: JSON.parse(

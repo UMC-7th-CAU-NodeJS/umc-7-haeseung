@@ -8,6 +8,7 @@ import {
   getUserById,
   getUserPreferencesByUserId,
   setPreference,
+  updateUser,
 } from "../repositories/user.repository.js";
 
 export const userSignUp = async (data) => {
@@ -48,4 +49,25 @@ export const getReviewsOfUserAndRestaurant = async (userId, restaurantId) => {
 
   // response
   return responseFromReviewList(reviews);
+}
+
+// 사용자 정보 갱신
+export const updateUserProfile = async (data) => {
+  // validation
+  if (!await getUserById(data.userId)) {
+    throw new MemberNotExist({userId: data.userId});
+  }
+
+  // business logic
+  const user = await updateUser(data);
+  console.log(user)
+  for (const preference of data.preferences) {
+    await setPreference(user.id, preference);
+  }
+
+  // response
+  const updatedUser = await getUserById(user.id);
+  const preferences = await getUserPreferencesByUserId(user.id);
+
+  return responseFromUser(updatedUser, preferences);
 }

@@ -21,7 +21,7 @@ model User {
   gender                      String     @db.VarChar(50)
   birth                       DateTime?
   address                     String?    @db.VarChar(500)
-  email                       String     @unique @db.VarChar(20)
+  email                       String     @unique @db.VarChar(50)
   phoneOk                     Boolean?   @map("phone_ok")
   phoneNumber                 String?    @map("phone_number") @db.VarChar(20)
   point                       BigInt?
@@ -232,4 +232,13 @@ model RepaymentPointLog {
   updatedAt     DateTime    @map("updated_at") @updatedAt
   
   @@map("repayment_point_log")
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String   @db.VarChar(512)
+  expiresAt DateTime @map("expires_at")
+
+  @@map("session")
 }
