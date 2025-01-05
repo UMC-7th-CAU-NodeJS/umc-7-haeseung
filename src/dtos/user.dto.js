@@ -33,7 +33,7 @@ export const updateBodyToUser = (userId, body) => {
   const birth = new Date(body.birth);
 
   return {
-    userId: userId,
+    userId: userIad,
     gender: body.gender,
     birth,
     address: body.address || "",
