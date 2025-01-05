@@ -27,7 +27,7 @@ export const responseFromUser = (user, preferences) => {
     phoneNumber: user.phone_number,
     preferences: preferenceList
   }
-}
+}a
 
 export const updateBodyToUser = (userId, body) => {
   const birth = new Date(body.birth);
