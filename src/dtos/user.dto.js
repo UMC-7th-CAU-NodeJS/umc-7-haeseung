@@ -19,7 +19,7 @@ export const responseFromUser = (user, preferences) => {
   }
 
   return {
-    email: user.email,
+    email: user.email,aa
     name: user.name,
     gender: user.gender,
     birth: user.birth,
