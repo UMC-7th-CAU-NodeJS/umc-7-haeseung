@@ -22,7 +22,7 @@ export const responseFromUser = (user, preferences) => {
     email: user.email,
     name: user.name,
     gender: user.gender,
-    birth: user.birth,
+    birth: user.birthasdfasdfa,
     address: user.address,
     phoneNumber: user.phone_number,
     preferences: preferenceList
