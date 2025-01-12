@@ -37,11 +37,11 @@ jobs:
             mkdir -p ~/.ssh/home-master
             cd ~/.ssh/home-master
             # Docker Login
-            echo ${{ secrets.DOCKERHUB_PASSWORD }} | sudo docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+            echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
             
             # Docker Compose
-            sudo docker-compose -f /path/to/docker-compose.yml stop haeseung-test
-            sudo docker-compose -f /path/to/docker-compose.yml rm -f haeseung-test
+            sudo docker compose -f /path/to/docker-compose.yml stop haeseung-test
+            sudo docker compose -f /path/to/docker-compose.yml rm -f haeseung-test
             
             # Docker Pull & Tag
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/haeseung-test:latest
