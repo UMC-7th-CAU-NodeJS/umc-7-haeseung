@@ -29,8 +29,8 @@ jobs:
 
       - name: Deploy to server
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          HOST: ${{ secrets.SERVER_HOST }}
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          HOST: ${{ secrets.EC2_HOST }}
           USER: ubuntu
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key
