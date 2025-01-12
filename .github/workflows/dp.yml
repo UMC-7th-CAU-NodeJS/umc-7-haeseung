@@ -40,8 +40,8 @@ jobs:
             echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
             
             # Docker Compose
-            sudo docker compose -f /path/to/docker-compose.yml stop haeseung-test
-            sudo docker compose -f /path/to/docker-compose.yml rm -f haeseung-test
+            sudo docker compose -f /docker-compose.yml stop haeseung-test
+            sudo docker compose -f /docker-compose.yml rm -f haeseung-test
             
             # Docker Pull & Tag
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/haeseung-test:latest
