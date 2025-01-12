@@ -29,15 +29,21 @@ jobs:
 
       - name: Deploy to server
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          HOST: ${{ secrets.EC2_HOST }}
-          USER: ubuntu
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          HOST: ${{ secrets.SERVER_HOST }}
+          USER: ${{ secrets.SERVER_USER }}
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key
-          ssh -i private_key USER@HOST
           chmod 600 private_key
-          scp -i private_key docker-compose.yml $USER@$HOST:~/heaseung-test/docker-compose.yml
-          ssh -i private_key $USER@$HOST << EOF
-          docker pull ${{ secrets.DOCKER_USERNAME }}/haeseung-test:latest
+      
+          # Check if HOST is resolved properly
+          echo "Testing connection to $HOST"
+          ping -c 3 $HOST || (echo "Host $HOST is not reachable" && exit 1)
+      
+          # Deploy application
+          scp -o StrictHostKeyChecking=no -i private_key docker-compose.yml $USER@$HOST:~/nodejs-app/docker-compose.yml
+          ssh -o StrictHostKeyChecking=no -i private_key -T $USER@$HOST << EOF
+          docker pull your-dockerhub-username/nodejs-app:latest
           docker-compose -f ~/nodejs-app/docker-compose.yml up -d
           EOF
+
