@@ -48,5 +48,5 @@ jobs:
             sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/haeseung-test:latest latest
             
             # Start Docker Compose
-            sudo docker-compose -f /path/to/docker-compose.yml up -d
+            sudo docker compose -f /path/to/docker-compose.yml up -d
 
