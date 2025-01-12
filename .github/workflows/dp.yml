@@ -44,8 +44,8 @@ jobs:
             sudo docker compose -f /path/to/docker-compose.yml rm -f haeseung-test
             
             # Docker Pull & Tag
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/haeseung-test:latest
-            sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/haeseung-test:latest haeseung-test:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/haeseung-test:latest
+            sudo docker tag ${{ secrets.DOCKER_USERNAME }}/haeseung-test:latest haeseung-test:latest
             
             # Start Docker Compose
             sudo docker compose -f /path/to/docker-compose.yml up -d
