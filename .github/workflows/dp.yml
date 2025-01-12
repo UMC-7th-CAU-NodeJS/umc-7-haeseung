@@ -34,9 +34,10 @@ jobs:
           USER: ubuntu
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key
+          ssh -i private_key USER@HOST
           chmod 600 private_key
           scp -i private_key docker-compose.yml $USER@$HOST:~/heaseung-test/docker-compose.yml
           ssh -i private_key $USER@$HOST << EOF
-          docker pull ${{ secrets.DOCKER_USERNAME }}/nodejs-app:latest
+          docker pull ${{ secrets.DOCKER_USERNAME }}/haeseung-test:latest
           docker-compose -f ~/nodejs-app/docker-compose.yml up -d
           EOF
