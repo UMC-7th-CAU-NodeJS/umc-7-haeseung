@@ -13,23 +13,26 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Login to docker hub
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        run: sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build docekr image
-        run: docker build -t haeseung392/haeseung-test .
+        run: sudo docker build -t haeseung392/haeseung-test .
 
       - name: Publish image to docker hub
-        run: docker push haeseung392/haeseung-test:latest
+        run: sudo docker push haeseung392/haeseung-test:latest
 
   deploy:
     needs: build
     runs-on: [aws-ec2]
     steps:
-      - name: Pull image from docker hub
-        run: docker pull haeseung392/haeseung-test:latest
-
       - name: Delete old container
         run: docker rm -f test-cont
 
+      - name: Delete old image
+        run: docker image rm haeseung392/haeseung-test:latest
+      
+      - name: Pull image from docker hub
+        run: docker pull haeseung392/haeseung-test:latest
+
       - name: Run docker container 
-        run: docker run -d -p 3000:3000 -e DATABASE_URL=${{ secrets.DATABASE_URL }} --name test-cont haeseung392/haeseung-test:latest
+        run: docker run -d -p 3000:3000 --env-file /home/ubuntu/.env --name test-cont haeseung392/haeseung-test:latest
