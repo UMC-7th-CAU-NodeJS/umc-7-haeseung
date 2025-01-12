@@ -27,23 +27,18 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/heaseung-test:latest
 
-      - name: Deploy to server
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          USER: ubuntu
-          HOST: ${{ secrets.EC2_HOST }}
-        run: |
-          echo $SSH_PRIVATE_KEY > private_key
-          chmod 600 private_key
-      
-          # Check if HOST is resolved properly
-          echo "Testing connection to $HOST"
-          ping -c 3 $HOST || (echo "Host $HOST is not reachable" && exit 1)
-      
-          # Deploy application
-          scp -o StrictHostKeyChecking=no -i private_key docker-compose.yml $USER@$HOST:~/haeseung-test/docker-compose.yml
-          ssh -o StrictHostKeyChecking=no -i private_key -T $USER@$HOST << EOF
-          docker pull ${{ secrets.DOCKER_USERNAME }}/haeseung-test:latest
-          docker-compose -f ~/haeseung/docker-compose.yml up -d
-          EOF
+      - name: Docker Compose
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd .ssh/home-master/
+            sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+            sudo docker-compose stop ${{ secrets.DOCKER_SERVICE_NAME }}
+            sudo docker-compose rm -f ${{ secrets.DOCKER_SERVICE_NAME }}
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY}}
+            sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY}} ${{ secrets.DOCKER_IMAGE_NAME }}
+            sudo docker compose up -d
 
