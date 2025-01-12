@@ -6,47 +6,30 @@ on:
       - dev
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-
+  build:
+  runs-on: [ubuntu-latest]
     steps:
-      - name: Checkout code
+      - name: Checkout source
         uses: actions/checkout@v3
 
-      - name: Log in to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build Docker image
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/heaseung-test:latest .
+      - name: Build docekr image
+        run: docker build -t haeseung392/UMC-7-HAESEUNG .
 
-      - name: Push Docker image to DockerHub
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/heaseung-test:latest
+      - name: Publish image to docker hub
+        run: docker push haeseung392/UMC-7-HAESEUNG:latest
 
-      - name: Docker Compose
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            mkdir -p ~/.ssh/home-master
-            cd ~/.ssh/home-master
-            # Docker Login
-            echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
-            
-            # Docker Compose
-            sudo docker compose -f /docker-compose.yml stop haeseung-test
-            sudo docker compose -f /docker-compose.yml rm -f haeseung-test
-            
-            # Docker Pull & Tag
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/haeseung-test:latest
-            sudo docker tag ${{ secrets.DOCKER_USERNAME }}/haeseung-test:latest haeseung-test:latest
-            
-            # Start Docker Compose
-            sudo docker compose -f /path/to/docker-compose.yml up -d
+  deploy:
+    needs: build
+    runs-on: [aws-ec2]
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull haeseung392/UMC-7-HAESEUNG:latest
 
+      - name: Delete old container
+        run: docker rm -f test-cont
+
+      - name: Run docker container 
+        run: docker run -d -p 3000:3000 -name test-cont haeseung392/UMC-7-HAESEUNG
