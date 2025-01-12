@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-  runs-on: [ubuntu-latest]
+    runs-on: [ubuntu-latest]
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
@@ -16,17 +16,17 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build docekr image
-        run: docker build -t haeseung392/UMC-7-HAESEUNG .
+        run: docker build -t haeseung392/haeseung-test .
 
       - name: Publish image to docker hub
-        run: docker push haeseung392/UMC-7-HAESEUNG:latest
+        run: docker push haeseung392/haeseung-test:latest
 
   deploy:
     needs: build
     runs-on: [aws-ec2]
     steps:
       - name: Pull image from docker hub
-        run: docker pull haeseung392/UMC-7-HAESEUNG:latest
+        run: docker pull haeseung392/haeseung-test:latest
 
       - name: Delete old container
         run: docker rm -f test-cont
