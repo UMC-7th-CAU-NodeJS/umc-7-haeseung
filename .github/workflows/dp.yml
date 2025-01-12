@@ -29,9 +29,9 @@ jobs:
 
       - name: Deploy to server
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          HOST: ubuntu
-          USER: ${{ secrets.SERVER_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSHE_KEY }}
+          USER: ubuntu
+          HOST: ${{ secrets.EC2_HOST }}
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key
           chmod 600 private_key
