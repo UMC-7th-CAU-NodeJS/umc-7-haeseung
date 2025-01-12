@@ -39,6 +39,6 @@ jobs:
             sudo docker-compose stop ${{ secrets.DOCKER_SERVICE_NAME }}
             sudo docker-compose rm -f ${{ secrets.DOCKER_SERVICE_NAME }}
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/haeseung-test
-            sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/haeseung-test:lastest 
+            sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/haeseung-test:lastest haeseung-test
             sudo docker compose up -d
 
