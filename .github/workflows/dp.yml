@@ -36,9 +36,17 @@ jobs:
           script: |
             mkdir -p ~/.ssh/home-master
             cd ~/.ssh/home-master
-            echo "${{ secrets.DOCKERHUB_PASSWORD }}" | sudo docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-            sudo docker compose stop ${{ secrets.DOCKER_SERVICE_NAME }}
-            sudo docker compose rm -f ${{ secrets.DOCKER_SERVICE_NAME }}
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/haeseung-test
-            sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/haeseung-test latest
-            sudo docker-compose up -d
+            # Docker Login
+            echo ${{ secrets.DOCKERHUB_PASSWORD }} | sudo docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+            
+            # Docker Compose
+            sudo docker-compose -f /path/to/docker-compose.yml stop haeseung-test
+            sudo docker-compose -f /path/to/docker-compose.yml rm -f haeseung-test
+            
+            # Docker Pull & Tag
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/haeseung-test:latest
+            sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/haeseung-test:latest latest
+            
+            # Start Docker Compose
+            sudo docker-compose -f /path/to/docker-compose.yml up -d
+
